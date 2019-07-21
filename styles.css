@@ -3,7 +3,9 @@ body {
 }
 
 #app {
+    margin: 0 auto;
     background-color: #eee;
+    width: 70%;
 }
 
 #app h1 {
