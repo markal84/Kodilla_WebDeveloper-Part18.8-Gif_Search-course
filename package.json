@@ -4,7 +4,8 @@
   "description": "Gif search App written using React",
   "main": "script.js",
   "scripts": {
-	"start": "http-server",
+    "start": "http-server",
+    "start-babel": "babel script.js --watch --out-file script-compiled.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,6 +19,9 @@
   },
   "homepage": "https://github.com/markal84/18.8-Gif_Search#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
     "http-server": "^0.11.1"
   }
 }

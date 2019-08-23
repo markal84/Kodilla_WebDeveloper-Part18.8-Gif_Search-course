@@ -8,7 +8,7 @@ App = React.createClass({
         };
     },
 
-    handleSearch: function(searchingText) {  // gif search function - paramater is searched text
+    /*handleSearch: function(searchingText) {  // gif search function - paramater is searched text
         this.setState({
           loading: true  // set load state to true ( display loading gif)
         });
@@ -19,13 +19,49 @@ App = React.createClass({
             searchingText: searchingText  // update text state - text inputed by user used as parameter
           });
         }.bind(this));
-    },
+    }, */
 
-    getGif: function(searchingText, callback) {  
+    handleSearch: function(searchingText) {
+        this.setState({
+              loading: true  
+            });
+            this.getGif(searchingText)
+            .then(gif => {
+              this.setState({  
+                loading: false,  
+                gif: gif,
+                searchingText: searchingText  
+              });
+            });
+      },
+
+    getGif: function(searchingText) {  
         var GIPHY_API_URL = 'https://api.giphy.com';
         var GIPHY_PUB_KEY = 'PV2ALIA0kck4cQHnrh3wKImWbwVigUsJ';
 
-        var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // Constructed url address for giphy API
+        return new Promise(
+            (resolve, reject) => {
+          var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;
+          var xhr = new XMLHttpRequest(); 
+          xhr.open('GET', url);
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+               var data = JSON.parse(xhr.responseText).data;
+                var gif = {  
+                  url: data.fixed_width_downsampled_url,
+                  sourceUrl: data.url
+                };
+                resolve(gif);
+              } else {
+                reject(new Error ('Error'));
+              }
+            };
+            xhr.send();
+          }
+          )
+        },
+
+        /*var url = GIPHY_API_URL + '/v1/gifs/random?api_key=' + GIPHY_PUB_KEY + '&tag=' + searchingText;  // Constructed url address for giphy API
         var xhr = new XMLHttpRequest();  // new request to server
         xhr.open('GET', url); // get status form constructed url
         xhr.onload = function() {
@@ -39,7 +75,7 @@ App = React.createClass({
             }
         };
         xhr.send();
-    },
+    }, */
 
     render: function() {
 
